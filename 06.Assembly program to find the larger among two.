@@ -19,30 +19,21 @@ MAIN PROC
     MOV VAL,AL
     INT 21H 
     MOV NUM,AL 
-    MOV BL,NUM 
     
-    CMP VAL,BL
+    MOV BL,VAL 
+    CMP BL,NUM
     JGE LARGER 
-    JL LESS
+    MOV BL,NUM
 
     LARGER:
     MOV AH,09
     LEA DX,T
     INT 21H   
     MOV AH,02
-    MOV DL,VAL
+    MOV DL,BL
     INT 21H
-    JMP EXITS
 
-    LESS:  
-    MOV AH,09
-    LEA DX,T
-    INT 21H
-    MOV AH,02
-    MOV DL,NUM
-    INT 21H
-     
-     EXITS:
+
     ; Return program
     MOV AH,4CH
     INT 21H
