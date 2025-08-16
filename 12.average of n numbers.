@@ -18,7 +18,7 @@ READ_LOOP:
     INC DI
     LOOP READ_LOOP
 
-    XOR AX, AX
+    MOV AX, 0
     LEA SI, ARR
     MOV CX, 5
 
