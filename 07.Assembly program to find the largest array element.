@@ -1,38 +1,44 @@
 .MODEL SMALL
-.STACK 100H
+.STACK 100h
 .DATA
-ARR DB 3,5,2,8,4,9 
-TEXT DB 10,13,"THE LARGEST NUMBER IS : $"
+arr db 5 dup(?)                 
+txt db 10,13,'largest element is: $'  
 .CODE
 MAIN PROC
-    MOV AX, @DATA
-    MOV DS, AX
+    mov ax, @data
+    mov ds, ax
 
-    MOV CX, 5          
-    LEA SI, ARR        
-    MOV BL, [SI]       
+    lea di, arr
+    mov cx, 5
+input_loop:
+    mov ah, 01
+    int 21h
+    sub al, 30h      
+    mov [di], al
+    inc di
+    loop input_loop
 
-LOOP1:
-    INC SI
-    CMP BL, [SI]        
-    JGE NEXT
-    MOV BL, [SI]       
+    lea si, arr
+    mov bl, [si]     
+    mov cx, 4         
+find_max:
+    inc si
+    mov al, [si]
+    cmp bl, al
+    jae skip
+    mov bl, al   
+skip:
+    loop find_max
 
-NEXT:
-    DEC CX
-    JNZ LOOP1
+    lea dx, txt
+    mov ah, 09
+    int 21h
 
-    MOV AH, 09H
-    LEA DX, TEXT
-    INT 21H
-
-    MOV AH, 02H
-    MOV DL, BL
-    ADD DL, 30H      
-    INT 21H
-    
-    MOV AH, 4CH
-    INT 21H
-
+    mov dl, bl
+    add dl, 30h    
+    mov ah, 02
+    int 21h
+    mov ah, 4Ch
+    int 21h
 MAIN ENDP
 END MAIN
