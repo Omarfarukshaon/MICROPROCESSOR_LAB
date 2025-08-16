@@ -1,7 +1,7 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-    string_lentgh DB 20, ?, 20 DUP('$') 
+    BUFFER DB 30, ?, 30 DUP('$') 
     Text DB "ENTER A STRING: $"
     RESULT DB 10, 13, "REVERSED STRING: $"
 
@@ -14,13 +14,12 @@ MAIN PROC
     LEA DX, text
     INT 21H
     
-    LEA DX, string_lentgh
+    LEA DX, BUFFER
     MOV AH, 0AH
     INT 21H
-     
-    MOV CL, [string_lentgh+1]
+    MOV CL, [BUFFER+1]
     MOV CH, 0                
-    LEA SI, string_lentgh+2           
+    LEA SI, BUFFER+2           
     ADD SI, CX                 
     
     MOV AH, 09H
